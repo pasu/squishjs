@@ -1,0 +1,22 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>Decode</title>
+    <script>
+        function onload() {
+            var dxt3Url = "./images/test-dxt1.dds"
+            var worker =new Worker("worker.js");
+
+            worker.postMessage(dxt3Url);
+            worker.onmessage =function(evt){
+                alert(evt.data);
+            }
+
+        };
+    </script>
+</head>
+<body onload = onload()>
+
+</body>
+</html>
