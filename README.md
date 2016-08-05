@@ -26,7 +26,7 @@ var pEncode = new Uint8Array(data,nOffset,width*height);
 pImageBuffer = new Uint8Array(width*height*4);   
 Decode(pImageBuffer,width,height,pEncode, kDxt1);   
 
-##DXT1 decode RGB565:
+##DXT1 decode to RGB565:
 var pEncode = new Uint16Array(data,nOffset,nSize/2);   
 var pImageBuffer = new Uint16Array(width*height);   
 Decode(pImageBuffer,width,height,pEncode, kDxt1 | krgb565);
