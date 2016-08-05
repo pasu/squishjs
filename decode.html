@@ -4,19 +4,64 @@
 <head>
     <title>Decode</title>
     <script>
+        function fourCCToInt32(value) {
+            return value.charCodeAt(0) +
+                    (value.charCodeAt(1) << 8) +
+                    (value.charCodeAt(2) << 16) +
+                    (value.charCodeAt(3) << 24);
+        }
+
+        var FOURCC_DXT1 = fourCCToInt32("DXT1");
+        var FOURCC_DXT3 = fourCCToInt32("DXT3");
+        var FOURCC_DXT5 = fourCCToInt32("DXT5");
+
         function onload() {
             var dxt3Url = "./images/test-dxt1.dds"
+            var dxt5Url = "./images/test-dxt5.dds"
             var worker =new Worker("worker.js");
 
             worker.postMessage(dxt3Url);
+            worker.postMessage(dxt5Url);
             worker.onmessage =function(evt){
-                alert(evt.data);
+                var width = evt.data.width;
+                var height = evt.data.height;
+                var pImageBuffer = evt.data.pImageBuffer;
+
+                var c = null;
+                if(evt.data.dxtFormat == FOURCC_DXT1 ){
+                    c = document.getElementById("myCanvas");
+                }
+                else{
+                    c = document.getElementById("myCanvas2");
+                }
+
+                var cxt=c.getContext("2d");
+
+                var imgData=cxt.createImageData(width,height);
+                for (var i=0;i<imgData.data.length;i+=4)
+                {
+                    imgData.data[i+0]=pImageBuffer[i+0];
+                    imgData.data[i+1]=pImageBuffer[i+1];
+                    imgData.data[i+2]=pImageBuffer[i+2];
+                    imgData.data[i+3]=pImageBuffer[i+3];
+                }
+                cxt.putImageData(imgData,0,0);
             }
 
         };
     </script>
 </head>
 <body onload = onload()>
+<h1>DXT1 Decode</h1>
+<div>
+    <canvas id="myCanvas" width="512" height="512" style="border:1px solid #c3c3c3;">
+    </canvas>
+</div>
 
+<h1>DXT5 Decode</h1>
+<div>
+    <canvas id="myCanvas2" width="512" height="512" style="border:1px solid #c3c3c3;">
+    </canvas>
+</div>
 </body>
 </html>

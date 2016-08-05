@@ -1,3 +1,5 @@
+importScripts("./squish.js");
+
 var headerLengthInt = 31; // The header length in 32 bit ints
 var off_pfFourCC = 21;
 
@@ -32,13 +34,30 @@ onmessage =function (event){
             var height = header[off_height];
             var dataOffset = header[off_size] + 4;
 
+            var pImageBuffer = null;
             if(fourCC == FOURCC_DXT1){
+                var pEncode = new Uint8Array(arrayBuffer,dataOffset,width*height/2);
+                pImageBuffer = new Uint8Array(width*height*4);
+                Decode(pImageBuffer,width,height,pEncode, kDxt1);
 
+//                var pEncode = new Uint16Array(arrayBuffer,dataOffset/2,width*height/4);
+//                var pImageBuffer = new Uint16Array(width*height);
+//                Decode(pImageBuffer,width,height,pEncode, kDxt1 | krgb565);
             }
             else{
-
+                var pEncode = new Uint8Array(arrayBuffer,dataOffset,width*height);
+                pImageBuffer = new Uint8Array(width*height*4);
+                Decode(pImageBuffer,width,height,pEncode, kDxt5);
             }
-            postMessage(arrayBuffer);
+
+            var obj = {
+                width:width,
+                height:height,
+                pImageBuffer:pImageBuffer,
+                dxtFormat:fourCC
+            }
+
+            postMessage(obj);
         }
     };
     xhr.send(null);

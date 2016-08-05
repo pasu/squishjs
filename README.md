@@ -18,8 +18,8 @@ pImageBuffer: the umcompressed buffer
 
 ##DXT5:
 var pEncode = new Uint8Array(data,nOffset,width*height);   
-pImageBuffer = new Uint8Array(width*height*4);   
-Decode(pImageBuffer,width,height,pEncode, kDxt5);   
+pImageBuffer = new Uint8Array(width*height*4);
+Decode(pImageBuffer,width,height,pEncode, kDxt5);
 
 ##DXT3 decode to RGBA:
 var pEncode = new Uint8Array(data,nOffset,width*height);   
@@ -29,4 +29,4 @@ Decode(pImageBuffer,width,height,pEncode, kDxt1);
 ##DXT3 decode RGB565:
 var pEncode = new Uint16Array(data,nOffset,nSize/2);   
 var pImageBuffer = new Uint16Array(width*height);   
-var Decode(pImageBuffer,width,height,pEncode, kDxt1 | krgb565);   
+Decode(pImageBuffer,width,height,pEncode, kDxt1 | krgb565);
