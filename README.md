@@ -30,3 +30,6 @@ Decode(pImageBuffer,width,height,pEncode, kDxt1);
 var pEncode = new Uint16Array(data,nOffset,nSize/2);   
 var pImageBuffer = new Uint16Array(width*height);   
 Decode(pImageBuffer,width,height,pEncode, kDxt1 | krgb565);
+
+##License
+I disclaims copyright to this source code,just bless you can use it and give me your suggestion.
